@@ -22,7 +22,7 @@ def print_header
   puts "-------------"
 end
 
-# prints the index counted before the name of each student, e.g. "1. Dr. Hannibal Lecter"
+# prints index counted before name of each student, e.g. "1. Dr. Hannibal Lecter"
 def print(students)
     students.each_with_index do |student, index|
         puts "#{index + 1} #{student[:name]} (#{student[:cohort]} cohort)"
