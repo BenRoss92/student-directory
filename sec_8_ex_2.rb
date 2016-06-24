@@ -31,7 +31,7 @@ def print(students)
     #iterate over each student
   students.each do |student|
     #display student name and cohort
-    puts "#{student[:name]} (#{student[:cohort]})"
+    puts "#{student[:name]} (#{student[:cohort]} cohort)"
   end
 end
     
