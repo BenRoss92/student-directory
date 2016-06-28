@@ -1,14 +1,14 @@
 def input_students
     
   puts "Please enter the name of the student"
-  puts "Please enter their cohort"
-  puts "To finish, just hit return twice"
-  #create empty array for students
-  students = []
   #get the first name
   name = gets.chomp
   #get the first cohort
+  puts "Please enter their cohort"
   cohort = gets.chomp
+  puts "To finish, just hit return twice"
+  #create empty array for students
+  students = []
   #while the name is not empty, repeat this code
   while !name.empty? do
       #add the student hash to the array
@@ -17,13 +17,12 @@ def input_students
       puts "Now we have #{students.count} students"
       #get another name from the user
       name = gets.chomp
+      #get another cohort from the user
+      cohort = gets.chomp
   end
-  
   #return the array of students
   students
 end
-
-
 
 def print_header
   puts "The students of Villains Academy"
