@@ -24,6 +24,7 @@ end
 
 def print(students)
   #iterate over each student and delete if
+  # NOTE: COULD USE SELECT WITH IF STATMEMENT, THEN COPY CODE WITHIN PRINT_FOOTER METHOD INTO PRINT(STUDENTS) METHOD
   students.delete_if do |student|
     #student's name is bigger than or equal to 12 characters
     student[:name].length >= 12 
