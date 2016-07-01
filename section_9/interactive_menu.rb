@@ -1,24 +1,29 @@
 @students = [] # an empty array accessible to all methods
 
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "3. Save the list to students.csv"
+  puts "4. Load the list from students.csv"
+  puts "9. Exit" # 9 because we'll be adding more items
+end
+
 def input_students
   puts "Please enter the names of the students"
   #get the first name
-  name = gets.chomp
+  name = STDIN.gets.chomp
   #get the first cohort
-  puts "Please enter their cohort"
-  cohort = gets.chomp
-  puts "To finish, just hit return twice"
   #while the name is not empty, repeat this code
   while !name.empty? do
       #add the student hash to the array
-      @students << {name: name, cohort: cohort.to_sym}
+      puts "Please enter their cohort"
+      cohort = STDIN.gets.chomp
+      puts "To finish, just hit return twice"
+      @students << {name: name, cohort: cohort}
       puts "Now we have #{@students.count} students"
       #get another name from the user
       puts "Please enter another name"
-      name = gets.chomp
-      puts "Please enter another cohort"
-      #get another cohort from the user
-      cohort = gets.chomp
+      name = STDIN.gets.chomp
   end
 end
 
@@ -27,16 +32,8 @@ def interactive_menu
     loop do
         print_menu
         #gets.chomp is the argument then used in 'process' method
-        process(gets.chomp)
+        process(STDIN.gets.chomp)
     end
-end
-
-def print_menu
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "3. Save the list to students.csv"
-    puts "4. Load the list from students.csv"
-    puts "9. Exit" # 9 because we'll be adding more items
 end
 
 def show_students
@@ -89,13 +86,28 @@ def save_students
     file.close
 end
 
-def load_students
-    file = File.open("students.csv", "r")
-    file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-        @students << {name: name, cohort: cohort.to_sym}
-    end
-    file.close
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
+  file.readlines.each do |line|
+  name, cohort = line.chomp.split(',')
+    @students << {name: name, cohort: cohort}
+  end
+  file.close
 end
-        
+
+def try_load_students
+  filename = ARGV.first# first argument from the command line
+  return if filename.nil? # get out of the method if it isn't given
+  if File.exists?(filename) # if it exists
+    load_students(filename)
+     puts "Loaded #{@students.count} from #{filename}"
+  else # if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit # quit the program
+  end
+end
+
+try_load_students
 interactive_menu
+
+# load in terminal using 'ruby interactive_menu.rb students.csv'
