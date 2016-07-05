@@ -25,6 +25,7 @@ def input_students
       puts "Please enter another name"
       name = STDIN.gets.chomp
   end
+  puts "#{@students.count} students stored in memory - press option 3 to save to disk"
 end
 
 def interactive_menu
@@ -84,6 +85,7 @@ def save_students
         file.puts csv_line
     end
     file.close
+    puts "#{@students.count} students now saved in students.csv"
 end
 
 def load_students(filename = "students.csv")
@@ -93,6 +95,7 @@ def load_students(filename = "students.csv")
     @students << {name: name, cohort: cohort}
   end
   file.close
+  puts "Loaded #{@students.count} students from #{filename}"
 end
 
 def try_load_students
@@ -100,7 +103,6 @@ def try_load_students
   return load_students if filename.nil? # get out of the method if it isn't given
   if File.exists?(filename) # if it exists
     load_students(filename)
-     puts "Loaded #{@students.count} from #{filename}"
   else # if it doesn't exist
     puts "Sorry, #{filename} doesn't exist."
     exit # quit the program
@@ -110,4 +112,4 @@ end
 try_load_students
 interactive_menu
 
-# load in terminal using 'ruby interactive_menu.rb students.csv'
+# To load with specific file, type 'ruby interactive_menu.rb filename.type' into terminal
