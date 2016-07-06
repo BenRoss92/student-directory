@@ -1,10 +1,11 @@
 @students = [] # an empty array accessible to all methods
 
 def print_menu
+  puts "Please choose from the following options:"
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save the list to an exisiting file"
+  puts "4. Load the list from an exisiting file"
   puts "9. Exit" # 9 because we'll be adding more items
 end
 
@@ -32,7 +33,7 @@ def interactive_menu
     #infinite loop
     loop do
         print_menu
-        #gets.chomp is the argument then used in 'process' method
+        # gets.chomp is the argument then used in 'process' method
         process(STDIN.gets.chomp)
     end
 end
@@ -50,9 +51,15 @@ def process(selection)
     when "2"
         show_students
     when "3"
-        save_students
+        # Ask user which file to save
+         puts "Which file would you like to save these students in?"
+         # gets.chomp is the argument then used in 'save_students' method
+        save_students(STDIN.gets.chomp)
     when "4"
-        load_students
+        # Ask user which file to load
+        puts "What file would you like to load?"
+        # gets.chomp is the argument then used in 'load_students' method
+        load_students(STDIN.gets.chomp)
     when "9"
         exit
     else
@@ -75,9 +82,10 @@ def print_footer
   puts "Overall, we have #{@students.count} great students"
 end
 
-def save_students
+def save_students(file_to_save)
     # open the file for writing ('w' opens it in write-only mode)
-    file = File.open("students.csv", "w")
+    # replace 'students.csv' with any file and write into it
+    file = File.open(file_to_save, "w")
     # iterate over the array of students
     @students.each do |student|
         student_data = [student[:name], student[:cohort]]
@@ -85,19 +93,23 @@ def save_students
         file.puts csv_line
     end
     file.close
-    puts "#{@students.count} students now saved in students.csv"
+    puts "#{@students.count} students now saved in #{file_to_save}"
 end
 
-def load_students(filename = "students.csv")
-  file = File.open(filename, "r")
+# 'filename' specified by user input during 'process' method
+def load_students(file_to_load)
+    # loads students in file specified by user
+  file = File.open(file_to_load, "r")
   file.readlines.each do |line|
   name, cohort = line.chomp.split(',')
     @students << {name: name, cohort: cohort}
   end
   file.close
-  puts "Loaded #{@students.count} students from #{filename}"
+  puts "Loaded #{@students.count} students from #{file_to_load}"
 end
 
+=begin
+# As files loaded & saved now specified, method below isn't needed
 def try_load_students
   filename = ARGV.first# first argument from the command line
   return load_students if filename.nil? # get out of the method if it isn't given
@@ -108,8 +120,8 @@ def try_load_students
     exit # quit the program
   end
 end
+=end
 
-try_load_students
 interactive_menu
 
 # To load with specific file, type 'ruby interactive_menu.rb filename.type' into terminal
